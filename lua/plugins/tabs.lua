@@ -1,0 +1,28 @@
+return {
+  -- "akinsho/bufferline.nvim",
+  -- version = "*",
+  -- dependencies = { "nvim-tree/nvim-web-devicons" },
+  -- config = function()
+  --   vim.opt.termguicolors = true
+  --
+  --   vim.keymap.set("n", "<leader>bco", ":BufferLineCloseOthers<CR>")
+  --   vim.keymap.set("n", "<leader>bcl", ":BufferLineCloseLeft<CR>")
+  --   vim.keymap.set("n", "<leader>bcr", ":BufferLineCloseRight<CR>")
+  --   vim.keymap.set("n", "<Tab>", ":BufferLineCycleNext<CR>")
+  --   vim.keymap.set("n", "<S-Tab>", ":BufferLineCyclePrev<CR>")
+  --
+  --   require("bufferline").setup{
+  --     options = {
+  --       color_icons = true,
+  --       show_close_icon = false,
+  --       show_buffer_close_icons = false,
+  --       always_show_bufferline = false,
+  --       auto_toggle_bufferline = true,
+  --       style_preset = require("bufferline").style_preset.minimal,
+  --       indicator = {
+  --         icon = "",
+  --       },
+  --     },
+  --   }
+  -- end,
+}
