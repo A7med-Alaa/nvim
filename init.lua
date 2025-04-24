@@ -52,9 +52,8 @@ vim.keymap.set("v", "<", "<gv")
 --Buffers and Tabs
 vim.keymap.set("n", "<leader>bd", ":bd!<CR>")
 vim.keymap.set("n", "<leader>tn", ":tabnext<CR>")
-vim.keymap.set("n", "<leader>tc", ":tabnew<CR>")
+vim.keymap.set("n", "<leader>tc", ":tabclose<CR>")
 vim.keymap.set("n", "<leader>tp", ":tabprevious<CR>")
-vim.keymap.set("n", "<leader>td", ":tabclose<CR>")
 
 vim.keymap.set("n", "<leader>s", [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<left><left><left>]])
 --
