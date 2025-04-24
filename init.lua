@@ -3,7 +3,7 @@ vim.opt.relativenumber = true
 vim.opt.number = true
 vim.opt.incsearch = true
 
-vim.g.mapleader =  " "
+vim.g.mapleader = " "
 vim.opt.termguicolors = true
 vim.opt.tabstop = 2
 vim.opt.shiftwidth = 2
@@ -17,8 +17,7 @@ vim.opt.ignorecase = true
 vim.opt.smartcase = true
 vim.opt.foldlevelstart = 99
 vim.opt.foldmethod = "indent"
-vim.opt.shortmess = vim.opt.shortmess + 'A' -- ignore annoying swapfile messages
-vim.opt.swapfile = false -- don't create swap files
+vim.opt.swapfile = false
 
 vim.opt.completeopt = vim.opt.completeopt + 'noselect'
 
@@ -26,11 +25,17 @@ vim.opt.scrolloff = 8
 vim.opt.updatetime = 50
 vim.opt.background = "dark"
 
-vim.diagnostic.config({ virtual_lines = { current_line = true } })
--- vim.keymap.set("n", "<leader>pv", vim.cmd.Ex)
+vim.diagnostic.config({ virtual_text = true, underline = true })
+
+vim.keymap.set("t", "<esc><esc>", "<C-\\><C-n>")
 
 vim.keymap.set("v", "J", ":m '>+1<CR>gv=gv")
 vim.keymap.set("v", "K", ":m '<-2<CR>gv=gv")
+
+-- terminal keymaps
+vim.keymap.set("n", "<tab>", "<CMD>bn<CR>")
+vim.keymap.set({"n", "t"}, "<S-tab>", "<CMD>bp<CR>")
+vim.keymap.set("n", "<leader>tt", ":terminal<CR>", {})
 
 vim.keymap.set("n", "<C-u>", "<C-u>zz")
 vim.keymap.set("n", "<C-d>", "<C-d>zz")
@@ -44,7 +49,7 @@ vim.keymap.set("v", "<leader>d", "\"_d")
 vim.keymap.set("v", ">", ">gv")
 vim.keymap.set("v", "<", "<gv")
 
-vim.keymap.set("n", "<leader>bd", ":bd<CR>")
+vim.keymap.set("n", "<leader>bd", ":bd!<CR>")
 vim.keymap.set("n", "<leader>s", [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<left><left><left>]])
 --
 -- vim.o.statusline = table.concat({

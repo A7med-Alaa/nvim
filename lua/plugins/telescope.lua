@@ -51,13 +51,8 @@ return {
 							override_generic_sorter = true, -- override the generic sorter
 							override_file_sorter = true, -- override the file sorter
 							case_mode = "smart_case", -- or "ignore_case" or "respect_case"
-							-- the default case_mode is "smart_case"
 						},
 					},
-					-- ["ui-select"] = {
-					-- 	-- require("telescope.themes").get_dropdown({}),
-					-- 	require("telescope.themes").get_ivy({}),
-					-- },
 				},
 			})
 
@@ -71,6 +66,14 @@ return {
 			end)
 			vim.keymap.set("n", "<leader><leader>", function()
 				builtin.find_files({ no_ignore = true, hidden = true })
+			end, { desc = "Telescope find files" })
+
+      vim.keymap.set("n", "<leader>fh", function()
+				builtin.help_tags()
+			end, { desc = "Telescope help tags" })
+
+      vim.keymap.set("n", "<leader>pc", function()
+				builtin.find_files({ cwd = vim.fn.stdpath("config") })
 			end, { desc = "Telescope find files" })
 
 			vim.keymap.set("n", "<leader>ps", function()

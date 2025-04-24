@@ -12,10 +12,14 @@ return {
 		vim.g.gruvbox_material_ui_contrast = "high"
 		vim.cmd.colorscheme("gruvbox-material")
 
-		vim.api.nvim_set_hl(0, "NormalFloat", { bg = "#101216" })
-		vim.api.nvim_set_hl(0, "FloatBorder", { fg = "#828697", bg = "#101216" })
-		vim.api.nvim_set_hl(0, "MiniFilesTitle", { fg = "#828697", bg = "#101216" }) -- optional border styling
+		vim.api.nvim_set_hl(0, "NormalFloat", { bg = "#000000" })
+		vim.api.nvim_set_hl(0, "FloatBorder", { fg = "#828697", bg = "#000000" })
+		vim.api.nvim_set_hl(0, "MiniFilesTitle", { fg = "#828697", bg = "#000000" }) -- optional border styling
 		vim.api.nvim_set_hl(0, "MiniFilesFile", { fg = "#d4d4d4" }) -- optional border styling
+		-- vim.api.nvim_set_hl(0, "NormalFloat", { bg = "#101216" })
+		-- vim.api.nvim_set_hl(0, "FloatBorder", { fg = "#828697", bg = "#101216" })
+		-- vim.api.nvim_set_hl(0, "MiniFilesTitle", { fg = "#828697", bg = "#101216" }) -- optional border styling
+		-- vim.api.nvim_set_hl(0, "MiniFilesFile", { fg = "#d4d4d4" }) -- optional border styling
 		-- vim.api.nvim_set_hl(0, 'LineNrAbove', { fg='#77948b', bold=true })
 		-- vim.api.nvim_set_hl(0, 'LineNr', { fg='#b09c84', bold=true })
 		-- vim.api.nvim_set_hl(0, 'LineNrBelow', { fg='#c37b90', bold=true })
