@@ -8,11 +8,11 @@ return {
 	},
 	{
 		"hrsh7th/nvim-cmp",
-		-- commit = "6c84bc75c64f778e9f1dcb798ed41c7fcb93b639",
+    lazy = true,
 		event = "BufEnter",
 		dependencies = {
 			"hrsh7th/cmp-buffer",
-			"hrsh7th/cmp-path",
+      "hrsh7th/cmp-path",
 			"hrsh7th/cmp-nvim-lua",
 			"mlaursen/vim-react-snippets",
 		},
@@ -32,14 +32,22 @@ return {
 					end,
 				},
 				mapping = cmp.mapping.preset.insert({
-					["<C-n>"] = cmp.mapping.select_next_item(cmp_select),
-					["<C-p>"] = cmp.mapping.select_prev_item(cmp_select),
+					["<tab>"] = cmp.mapping.select_next_item(cmp_select),
+					["<S-tab>"] = cmp.mapping.select_prev_item(cmp_select),
 					["<C-Space>"] = cmp.mapping.complete(),
-					["<CR>"] = cmp.mapping.confirm({ select = false }), -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
+					["<Down>"] = cmp.mapping(function(fallback)
+						cmp.close()
+						fallback()
+					end, { "i" }),
+					["<Up>"] = cmp.mapping(function(fallback)
+						cmp.close()
+						fallback()
+					end, { "i" }),
+					["<CR>"] = cmp.mapping.confirm({ select = false }),
 				}),
 				sources = cmp.config.sources({
 					{ name = "nvim_lsp" },
-					{ name = "luasnip" }, -- For luasnip users.
+					{ name = "luasnip" },
 					{ name = "path" },
 					{ name = "nvim_lua" },
 					{ name = "buffer" },

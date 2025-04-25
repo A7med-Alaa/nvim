@@ -17,6 +17,7 @@ return {
 	"nvim-lualine/lualine.nvim",
 	-- dependencies = { "nvim-tree/nvim-web-devicons" },
 	dependencies = { "echasnovski/mini.icons", "SmiteshP/nvim-navic"},
+	-- dependencies = { "echasnovski/mini.icons"},
 	config = function()
 		local mytheme = require("lualine.themes.codedark")
 		-- mytheme.normal.c.bg = '#000000'
@@ -30,21 +31,15 @@ return {
 		mytheme.normal.a.bg = "#828697"
 		mytheme.normal.b.fg = "#828697"
 		mytheme.normal.c.bg = nil
+		-- mytheme.normal.c.bg = "#000000"
 		-- mytheme.insert.a.bg = "#779f94"
 		-- mytheme.insert.b.fg = "#779f94"
 		mytheme.insert.a.bg = "#608b4e"
 		mytheme.insert.b.fg = "#608b4e"
-		mytheme.insert.c.bg = nil
+		mytheme.insert.c.bg = "#000000"
 		mytheme.visual.a.bg = "#f28534"
 		mytheme.visual.b.fg = "#f28534"
 
-    -- local btest = function()
-    --   if require('lspsaga.symbol.winbar').get_bar() == nil then
-    --     return ''
-    --   else
-    --     return require('lspsaga.symbol.winbar').get_bar()
-    --   end
-    -- end
     local navic = function() return require("nvim-navic").get_location() end
 		require("lualine").setup({
 			options = {
@@ -57,6 +52,7 @@ return {
 				lualine_a = { "mode" },
 				lualine_b = { "branch", "diff", "diagnostics" },
 				lualine_c = { "filename", navic },
+				-- lualine_c = { "filename" },
 				-- lualine_x = { "encoding", "fileformat", "filetype" },
 				-- lualine_x = {
 				-- 	lsp_progress,

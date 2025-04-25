@@ -5,12 +5,6 @@ return {
 			require("gitsigns").setup({})
 
 			vim.keymap.set("n", "<leader>gp", "<CMD>Gitsigns preview_hunk<CR>")
-			-- vim.keymap.set("n", "<leader>gdf", function()
-			-- 	-- local relative_path = vim.fn.expand("%")
-			-- 	--     local filename = vim.fn.expand("%:t")
-			-- 	-- vim.cmd("tab Git diff " .. relative_path .. " | file Git Diff " .. filename)
-			--      vim.cmd("Gitsigns diffthis")
-			-- end, { desc = "Git Diff of Current File relative to the Index" })
 		end,
 	},
   {
@@ -20,7 +14,7 @@ return {
 
 			vim.keymap.set("n", "<leader>gd", function()
 				vim.cmd("DiffviewOpen")
-			end, { desc = "Git Diff of All Files relative to the Index" })
+			end, { desc = "Git Diff of All Files" })
     end,
   },
 	{

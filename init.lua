@@ -19,11 +19,13 @@ vim.opt.foldlevelstart = 99
 vim.opt.foldmethod = "indent"
 vim.opt.swapfile = false
 
-vim.opt.completeopt = vim.opt.completeopt + 'noselect'
+vim.opt.completeopt = vim.opt.completeopt + "noselect"
 
 vim.opt.scrolloff = 8
 vim.opt.updatetime = 50
 vim.opt.background = "dark"
+
+vim.opt.cursorline = true
 
 vim.diagnostic.config({ virtual_text = true, underline = true })
 
@@ -33,8 +35,8 @@ vim.keymap.set("v", "J", ":m '>+1<CR>gv=gv")
 vim.keymap.set("v", "K", ":m '<-2<CR>gv=gv")
 
 -- terminal keymaps
-vim.keymap.set("n", "<tab>", "<CMD>bn<CR>")
-vim.keymap.set({"n", "t"}, "<S-tab>", "<CMD>bp<CR>")
+-- vim.keymap.set("n", "<tab>", "<CMD>bn<CR>")
+vim.keymap.set({ "t" }, "<tab>", "<CMD>bp<CR>")
 vim.keymap.set("n", "<leader>tt", ":terminal<CR>", {})
 
 vim.keymap.set("n", "<C-u>", "<C-u>zz")
@@ -43,8 +45,8 @@ vim.keymap.set("n", "<C-d>", "<C-d>zz")
 vim.keymap.set("n", "n", "nzzzv")
 vim.keymap.set("n", "N", "Nzzzv")
 
-vim.keymap.set("n", "<leader>d", "\"_d")
-vim.keymap.set("v", "<leader>d", "\"_d")
+vim.keymap.set("n", "<leader>d", '"_d')
+vim.keymap.set("v", "<leader>d", '"_d')
 
 vim.keymap.set("v", ">", ">gv")
 vim.keymap.set("v", "<", "<gv")
@@ -69,14 +71,14 @@ vim.keymap.set("n", "<leader>s", [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<left><left><
 -- })
 
 vim.api.nvim_create_autocmd("TextYankPost", {
-  group = vim.api.nvim_create_augroup("HighlightYank", {}),
-  pattern = "*",
-  callback = function()
-    vim.highlight.on_yank({
-      higroup = "IncSearch",
-      timeout = 40,
-    })
-  end,
+	group = vim.api.nvim_create_augroup("HighlightYank", {}),
+	pattern = "*",
+	callback = function()
+		vim.highlight.on_yank({
+			higroup = "IncSearch",
+			timeout = 40,
+		})
+	end,
 })
 
 -- vim.api.nvim_create_autocmd("BufEnter", {
@@ -88,15 +90,14 @@ vim.api.nvim_create_autocmd("TextYankPost", {
 -- })
 
 vim.api.nvim_create_autocmd("LspAttach", {
-  group = vim.api.nvim_create_augroup("LspAttach", {}),
-  callback = function(ev)
-    local opts = {buffer = ev.buf}
-    vim.keymap.set("n", "K", vim.lsp.buf.hover, opts)
-    vim.keymap.set("n", "gd", vim.lsp.buf.definition, opts)
-    vim.keymap.set({ "n", "v" }, "<leader>ca", vim.lsp.buf.code_action, opts)
-    vim.keymap.set("i", "<C-h>", vim.lsp.buf.signature_help, opts)
-    vim.keymap.set("n", "<leader>rn", vim.lsp.buf.rename, opts)
-  end
+	group = vim.api.nvim_create_augroup("LspAttach", {}),
+	callback = function(ev)
+		local opts = { buffer = ev.buf }
+		vim.keymap.set("n", "K", vim.lsp.buf.hover, opts)
+		vim.keymap.set("n", "gd", vim.lsp.buf.definition, opts)
+		vim.keymap.set({ "n", "v" }, "<leader>ca", vim.lsp.buf.code_action, opts)
+		vim.keymap.set("i", "<C-h>", vim.lsp.buf.signature_help, opts)
+		vim.keymap.set("n", "<leader>rn", vim.lsp.buf.rename, opts)
+	end,
 })
 require("config.lazy")
-
