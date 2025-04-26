@@ -14,7 +14,9 @@ return {
 
 		vim.api.nvim_set_hl(0, "NormalFloat", { bg = "none" })
 		vim.api.nvim_set_hl(0, "FloatBorder", { fg = "#828697", bg = "none" })
+		vim.api.nvim_set_hl(0, "FloatTitle", { fg = "#828697", bg = "none" })
 		vim.api.nvim_set_hl(0, "MiniFilesTitle", { fg = "#828697", bg = "none" }) -- optional border styling
+		vim.api.nvim_set_hl(0, "MiniFilesTitleFocused", { fg = "#828697", bg = "none" }) -- optional border styling
 		vim.api.nvim_set_hl(0, "MiniFilesFile", { fg = "#d4d4d4" }) -- optional border styling
 
 		-- Set tab backgrounds using the gray variant #828697

@@ -20,7 +20,7 @@ return {
 	{
 		"tpope/vim-fugitive",
 		config = function()
-			local function open_floating_terminal(cmd)
+			local function open_floating_terminal(cmd, title)
 				-- Create a scratch buffer
 				local buf = vim.api.nvim_create_buf(false, true)
 
@@ -39,13 +39,12 @@ return {
 					height = height,
 					style = "minimal",
 					border = "rounded",
+					title = title,
+					title_pos = "center",
 				})
 
 				-- Start the terminal in the buffer
 				vim.fn.termopen(cmd or os.getenv("SHELL"))
-
-				-- Enter insert mode so terminal is active
-				-- vim.cmd("startinsert")
 
 				-- Optional: close window with `q`
 				vim.keymap.set("n", "q", function()
@@ -104,25 +103,29 @@ return {
 							return
 						end
 
+						local git_command = cmd_choice .. " " .. branch_choice
+						local end_delimiter = "echo '\n================================================\n'"
+						local title = string.upper(string.sub(cmd_choice, 1, -8))
+
+						local delimiter = function(text)
+							return string.format("echo '\n================== %s ==================\n'", text)
+						end
+
 						if cmd_choice == "git fetch origin" then
-							local git_command = cmd_choice .. " " .. branch_choice
-							local delimiter = function(text)
-								return string.format("echo '\n================== %s ==================\n'", text)
-							end
-							local end_delimiter = "echo '\n================================================\n'"
 							open_floating_terminal(
 								delimiter("Git Fetch")
-                  .. " && "
+									.. " && "
 									.. git_command
 									.. " && "
 									.. delimiter("Git Status")
 									.. " && "
 									.. "git status"
 									.. " && "
-									.. end_delimiter
+									.. end_delimiter,
+								title
 							)
 						else
-							open_floating_terminal(cmd_choice .. " " .. branch_choice)
+							open_floating_terminal(cmd_choice .. " " .. branch_choice, title)
 						end
 					end)
 				end)
