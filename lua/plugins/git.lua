@@ -72,11 +72,6 @@ return {
 				vim.cmd("tab Git show " .. commit .. " | file Git Show " .. commit:sub(1, 7))
 			end, { desc = "Git Show Commit Under Cursor" })
 
-			vim.keymap.set("n", "<leader>gr", function()
-				local commit = vim.fn.expand("<cword>")
-				vim.cmd("tab Git reset --soft " .. commit)
-			end, { desc = "Git Reset soft (the index) to the Commit Under Cursor" })
-
 			vim.keymap.set("n", "<leader>gp", function()
 				-- Get list of local branches
 				local branches = vim.fn.systemlist("git branch --format='%(refname:short)'")
