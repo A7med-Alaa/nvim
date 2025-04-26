@@ -4,7 +4,7 @@ return {
 		config = function()
 			require("gitsigns").setup({ current_line_blame = true })
 
-			vim.keymap.set("n", "<leader>gp", "<CMD>Gitsigns preview_hunk<CR>")
+			vim.keymap.set("n", "<leader>gh", "<CMD>Gitsigns preview_hunk<CR>")
 		end,
 	},
 	{
@@ -29,10 +29,6 @@ return {
 				vim.cmd("tab Git log --all --graph --decorate --parents --oneline | file Git Log")
 			end, { desc = "Git Log" })
 
-			vim.keymap.set("n", "<leader>gh", function()
-				vim.cmd("tab Git show HEAD | file Git Show HEAD")
-			end, { desc = "Git Show HEAD Commit" })
-
 			--Leader Git View
 			vim.keymap.set("n", "<leader>gv", function()
 				local commit = vim.fn.expand("<cword>")
@@ -43,6 +39,52 @@ return {
 				local commit = vim.fn.expand("<cword>")
 				vim.cmd("tab Git reset --soft " .. commit)
 			end, { desc = "Git Reset soft (the index) to the Commit Under Cursor" })
+
+			vim.keymap.set("n", "<leader>gp", function()
+				-- Get list of local branches
+				local branches = vim.fn.systemlist("git branch --format='%(refname:short)'")
+				if vim.v.shell_error ~= 0 then
+					vim.notify("Failed to get git branches", vim.log.levels.ERROR)
+					return
+				end
+
+				-- Show popup list to choose branch
+				vim.ui.select(branches, { prompt = "Select branch to push" }, function(choice)
+					if not choice then
+						vim.notify("Push canceled", vim.log.levels.INFO)
+						return
+					end
+
+					local cmd = "git push origin " .. choice
+					vim.notify("Pushing branch: " .. choice, vim.log.levels.INFO)
+
+					-- Run git push async
+					vim.fn.jobstart(cmd, {
+						stdout_buffered = true,
+						on_stdout = function(_, data)
+							if data then
+								for _, line in ipairs(data) do
+									print(line)
+								end
+							end
+						end,
+						on_stderr = function(_, data)
+							if data then
+								for _, line in ipairs(data) do
+									vim.notify(line, vim.log.levels.ERROR)
+								end
+							end
+						end,
+						on_exit = function(_, code)
+							if code == 0 then
+								vim.notify("Branch pushed successfully!", vim.log.levels.INFO)
+							else
+								vim.notify("Failed to push branch", vim.log.levels.ERROR)
+							end
+						end,
+					})
+				end)
+			end, { desc = "Git: push selected branch" })
 
 			vim.keymap.set("n", "<leader>gr", function()
 				local word_for_commit = vim.fn.expand("<cword>") -- gets the word under the cursor
