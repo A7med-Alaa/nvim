@@ -20,27 +20,21 @@ return {
 	-- dependencies = { "echasnovski/mini.icons"},
 	config = function()
 		local mytheme = require("lualine.themes.codedark")
-		-- mytheme.normal.c.bg = '#000000'
-		-- mytheme.normal.b.fg = '#828697'
-		-- mytheme.normal.a.bg = '#828697'
-		-- mytheme.insert.c.bg = '#000000'
-		--
-		-- mytheme.insert.a.bg = '#608b4e'
-		-- mytheme.insert.b.fg = '#608b4e'
-
 		mytheme.normal.a.bg = "#828697"
-		mytheme.normal.b.fg = "#828697"
-		mytheme.normal.c.bg = nil
-		-- mytheme.normal.c.bg = "#000000"
-		-- mytheme.insert.a.bg = "#779f94"
-		-- mytheme.insert.b.fg = "#779f94"
 		mytheme.insert.a.bg = "#608b4e"
+		mytheme.normal.b.bg = nil
+		mytheme.insert.b.bg = nil
+		mytheme.normal.b.fg = "#828697"
 		mytheme.insert.b.fg = "#608b4e"
-		mytheme.insert.c.bg = "#000000"
+    mytheme.normal.c.bg = nil
+		mytheme.insert.c.bg = nil
+		mytheme.normal.c.fg = "#D0D0D0"
+		mytheme.insert.c.fg = "#D0D0D0"
+
 		mytheme.visual.a.bg = "#f28534"
 		mytheme.visual.b.fg = "#f28534"
 
-    local navic = function() return require("nvim-navic").get_location() end
+    -- local navic = function() return require("nvim-navic").get_location() end
 		require("lualine").setup({
 			options = {
 				icons_enabled = true,
@@ -51,8 +45,8 @@ return {
 			sections = {
 				lualine_a = { "mode" },
 				lualine_b = { "branch", "diff", "diagnostics" },
-				lualine_c = { "filename", navic },
-				-- lualine_c = { "filename" },
+				-- lualine_c = { "filename", navic },
+				lualine_c = { "filename" },
 				-- lualine_x = { "encoding", "fileformat", "filetype" },
 				-- lualine_x = {
 				-- 	lsp_progress,

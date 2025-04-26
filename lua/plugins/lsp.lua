@@ -35,12 +35,12 @@ return {
     },
     config = function()
       local lspconf = require("lspconfig")
-      local navic = require("nvim-navic")
+      -- local navic = require("nvim-navic")
       local capabilities = require("cmp_nvim_lsp").default_capabilities()
       local on_attach = function(client, bufnr)
-        if client.server_capabilities.documentSymbolProvider then
-          navic.attach(client, bufnr)
-        end
+        -- if client.server_capabilities.documentSymbolProvider then
+        --   navic.attach(client, bufnr)
+        -- end
       end
 
       lspconf.pylsp.setup({
