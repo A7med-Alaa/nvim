@@ -20,6 +20,44 @@ return {
 	{
 		"tpope/vim-fugitive",
 		config = function()
+			local function open_floating_terminal(cmd)
+				-- Create a scratch buffer
+				local buf = vim.api.nvim_create_buf(false, true)
+
+				-- Calculate size and position
+				local width = math.floor(vim.o.columns * 0.8)
+				local height = math.floor(vim.o.lines * 0.8)
+				local row = math.floor((vim.o.lines - height) / 2)
+				local col = math.floor((vim.o.columns - width) / 2)
+
+				-- Create the floating window
+				local win = vim.api.nvim_open_win(buf, true, {
+					relative = "editor",
+					row = row,
+					col = col,
+					width = width,
+					height = height,
+					style = "minimal",
+					border = "rounded",
+				})
+
+				-- Start the terminal in the buffer
+				vim.fn.termopen(cmd or os.getenv("SHELL"))
+
+				-- Enter insert mode so terminal is active
+				-- vim.cmd("startinsert")
+
+				-- Optional: close window with `q`
+				vim.keymap.set("n", "q", function()
+					vim.api.nvim_win_close(win, true)
+				end, { buffer = buf })
+			end
+
+			-- Create keymap to launch it
+			vim.keymap.set("n", "<leader>tt", function()
+				open_floating_terminal()
+			end, { desc = "Open floating terminal" })
+
 			vim.keymap.set("n", "<leader>ga", ":Git add .<CR>")
 			vim.keymap.set("n", "<leader>gc", ":Git commit<CR>")
 			vim.keymap.set("n", "<leader>gs", ":Git status<CR>")
@@ -48,41 +86,45 @@ return {
 					return
 				end
 
-				-- Show popup list to choose branch
-				vim.ui.select(branches, { prompt = "Select branch to push" }, function(choice)
-					if not choice then
-						vim.notify("Push canceled", vim.log.levels.INFO)
+				local options = {
+					"git push origin",
+					"git fetch origin",
+					"git pull origin",
+				}
+
+				vim.ui.select(options, {
+					prompt = "Select Git Command",
+				}, function(cmd_choice)
+					if not cmd_choice then
 						return
 					end
 
-					local cmd = "git push origin " .. choice
-					vim.notify("Pushing branch: " .. choice, vim.log.levels.INFO)
+					vim.ui.select(branches, { prompt = "Choose Git Branch" }, function(branch_choice)
+						if not branch_choice then
+							return
+						end
 
-					-- Run git push async
-					vim.fn.jobstart(cmd, {
-						stdout_buffered = true,
-						on_stdout = function(_, data)
-							if data then
-								for _, line in ipairs(data) do
-									print(line)
-								end
+						if cmd_choice == "git fetch origin" then
+							local git_command = cmd_choice .. " " .. branch_choice
+							local delimiter = function(text)
+								return string.format("echo '\n================== %s ==================\n'", text)
 							end
-						end,
-						on_stderr = function(_, data)
-							if data then
-								for _, line in ipairs(data) do
-									vim.notify(line, vim.log.levels.ERROR)
-								end
-							end
-						end,
-						on_exit = function(_, code)
-							if code == 0 then
-								vim.notify("Branch pushed successfully!", vim.log.levels.INFO)
-							else
-								vim.notify("Failed to push branch", vim.log.levels.ERROR)
-							end
-						end,
-					})
+							local end_delimiter = "echo '\n================================================\n'"
+							open_floating_terminal(
+								delimiter("Git Fetch")
+                  .. " && "
+									.. git_command
+									.. " && "
+									.. delimiter("Git Status")
+									.. " && "
+									.. "git status"
+									.. " && "
+									.. end_delimiter
+							)
+						else
+							open_floating_terminal(cmd_choice .. " " .. branch_choice)
+						end
+					end)
 				end)
 			end, { desc = "Git: push selected branch" })
 
