@@ -1,23 +1,40 @@
 return {
-	"nvimtools/none-ls.nvim",
+  "nvimtools/none-ls.nvim",
   dependencies = {
     "nvimtools/none-ls-extras.nvim",
   },
-	config = function()
-		local null_ls = require("null-ls")
-		null_ls.setup({
-			sources = {
-				null_ls.builtins.formatting.stylua,
-				null_ls.builtins.formatting.prettier,
-				null_ls.builtins.formatting.black,
-				null_ls.builtins.formatting.isort,
-				-- null_ls.builtins.diagnostics.pylint,
+  lazy = true,
+  event = "BufReadPost", -- loads when a file is opened
+  config = function()
+    local null_ls = require("null-ls")
+    -- local augroup = vim.api.nvim_create_augroup("LspFormatting", {})
+    null_ls.setup({
+      sources = {
+        null_ls.builtins.formatting.stylua,
+        null_ls.builtins.formatting.prettier,
+        -- null_ls.builtins.formatting.black,
+        null_ls.builtins.formatting.isort,
+        -- null_ls.builtins.diagnostics.pylint,
         -- require("none-ls.diagnostics.eslint_d"),
         -- require("none-ls.diagnostics.cpplint"),
-				null_ls.builtins.formatting.clang_format,
-			},
-		})
+        null_ls.builtins.formatting.clang_format,
+      },
 
-		vim.keymap.set("n", "<leader>gf", vim.lsp.buf.format, {})
-	end,
+      -- format on save
+      -- on_attach = function(client, bufnr)
+      -- 	if client.supports_method("textDocument/formatting") then
+      -- 		vim.api.nvim_clear_autocmds({ group = augroup, buffer = bufnr })
+      -- 		vim.api.nvim_create_autocmd("BufWritePre", {
+      -- 			group = augroup,
+      -- 			buffer = bufnr,
+      -- 			callback = function()
+      -- 				vim.lsp.buf.format({ async = false })
+      -- 			end,
+      -- 		})
+      -- 	end
+      -- end,
+    })
+
+    vim.keymap.set("n", "<leader>gf", vim.lsp.buf.format, {})
+  end,
 }

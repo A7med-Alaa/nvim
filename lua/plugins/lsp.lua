@@ -1,20 +1,21 @@
 return {
-	{
-		"williamboman/mason.nvim",
+  {
+    "williamboman/mason.nvim",
     dependencies = {
-		  "williamboman/mason-lspconfig.nvim",
+      "williamboman/mason-lspconfig.nvim",
     },
     lazy = false,
-		config = function()
-			require("mason").setup()
+    config = function()
+      require("mason").setup()
 
       require("mason-lspconfig").setup({
         ensure_installed = {
-          "pylsp",
+          -- "pylsp",
           "lua_ls",
           "clangd",
+          "jdtls",
           "cmake",
-          "tailwindcss",
+          "powershell_es",
           "glsl_analyzer",
           "prismals",
           "jsonls",
@@ -24,75 +25,88 @@ return {
         },
         automatic_installation = true,
       })
-		end,
-	},
-	{
-		"neovim/nvim-lspconfig",
-    event = {"BufReadPre", "BufNewFile"},
+    end,
+  },
+  {
+    "neovim/nvim-lspconfig",
+    event = { "BufReadPre", "BufNewFile" },
     lazy = false,
     dependencies = {
       "hrsh7th/cmp-nvim-lsp",
       "nvim-lua/diagnostic-nvim",
     },
-		config = function()
-			local lspconf = require("lspconfig")
-			local capabilities = require("cmp_nvim_lsp").default_capabilities()
+
+    config = function()
+      -- local lspconf = require("lspconfig")
+      local lspconf = vim.lsp.config
+      -- local navic = require("nvim-navic")
+      local capabilities = require("cmp_nvim_lsp").default_capabilities()
       local bin_path = "C:/Users/hp/AppData/Local/nvim-data/mason/bin/"
-      lspconf.pylsp.setup({
-        capabilities = capabilities,
-        cmd = { bin_path .. "pylsp.cmd" },
-      })
-			lspconf.lua_ls.setup({
+      local on_attach = function(client, bufnr)
+        -- if client.server_capabilities.documentSymbolProvider then
+        --   navic.attach(client, bufnr)
+        -- end
+      end
+
+      -- lspconf("pylsp", {
+      --   on_attach = on_attach,
+      --   capabilities = capabilities,
+      --   cmd = { bin_path .. "pylsp.cmd" },
+      -- })
+      lspconf("lua_ls", {
+        on_attach = on_attach,
         capabilities = capabilities,
         cmd = { bin_path .. "lua-language-server.cmd" },
       })
-			lspconf.clangd.setup({
+      lspconf("clangd", {
+        on_attach = on_attach,
         capabilities = capabilities,
       })
-      lspconf.cmake.setup({
+      lspconf("jdtls", {
+        on_attach = on_attach,
+        capabilities = capabilities,
+        cmd = { bin_path .. "jdtls.cmd" },
+      })
+      lspconf("cmake", {
+        on_attach = on_attach,
         capabilities = capabilities,
         cmd = { bin_path .. "cmake-language-server.cmd" },
       })
-			lspconf.tailwindcss.setup({
+      lspconf("powershell_es", {
+        on_attach = on_attach,
         capabilities = capabilities,
-        cmd = { bin_path .. "tailwind-language-server.cmd" },
+        cmd = { bin_path .. "powershell-editor-services.cmd" },
       })
-			lspconf.glsl_analyzer.setup({
+      lspconf("glsl_analyzer", {
+        on_attach = on_attach,
         capabilities = capabilities,
         cmd = { bin_path .. "glsl_analyzer.cmd" },
       })
-			lspconf.prismals.setup({
+      lspconf("prismals", {
+        on_attach = on_attach,
         capabilities = capabilities,
         cmd = { bin_path .. "prisma-language-server.cmd" },
       })
-			lspconf.jsonls.setup({
+      lspconf("jsonls", {
+        on_attach = on_attach,
         capabilities = capabilities,
         cmd = { bin_path .. "vscode-json-language-server.cmd" },
       })
-			lspconf.html.setup({
+      lspconf("html", {
+        on_attach = on_attach,
         capabilities = capabilities,
         cmd = { bin_path .. "vscode-html-language-server.cmd" },
       })
-      lspconf.cssls.setup({
+      lspconf("cssls", {
+        on_attach = on_attach,
         capabilities = capabilities,
         cmd = { bin_path .. "vscode-css-language-server.cmd" },
       })
-			lspconf.ts_ls.setup({
+      lspconf("ts_ls", {
+        on_attach = on_attach,
         capabilities = capabilities,
-        cmd = { bin_path .. "typescript-language-server.cmd" },
+        cmd = { bin_path .. "typescript-language-server.cmd", "--stdio" },
       })
-
-      -- vim.diagnostic.config({
-      --   update_in_insert = true,
-      --   float = {
-      --     focusable = false,
-      --     style = 'minimal',
-      --     border = 'rounded',
-      --     source = 'always',
-      --     header = '',
-      --     prefex = '',
-      --   }
-      -- })
-		end,
-	},
+    end,
+  },
 }

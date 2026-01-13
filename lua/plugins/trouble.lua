@@ -14,7 +14,7 @@ auto_close = true,
     {
       "<leader>xX",
       "<cmd>Trouble diagnostics toggle filter.buf=0<cr>",
-      desc = "Buffer Diagnostics (Trouble)",
+      desc = "Current Buffer Diagnostics (Trouble)",
     },
     {
       "<leader>cs",
